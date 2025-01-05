@@ -1,13 +1,32 @@
-import Nav from "./Nav";
+import Nav from "./Components/Navbar/Nav";
+import Footer from "./Components/Footer/Footer"
+import SignUp from "./Components/SignUp/SignUp"
+import './index.css';
 
-import { BrowserRouter } from "react-router-dom";
+ // Adjust path if needed
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Nav />
+
+        <Routes>
+          <Route path="/" element={<h1>Product listing component</h1>}/>
+          <Route path="/add" element={<h1>ADD Product component</h1>}/>
+          <Route path="/update" element={<h1> UPDATE Product  component</h1>}/>
+          <Route path="/logout" element={<h1>LOGOUT</h1>}/>
+          <Route path="/profile" element={<h1>PROFILE</h1>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+        </Routes>
       </BrowserRouter>
+
+
+      <Footer/>
+
+      
     </>
   );
 }
