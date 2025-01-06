@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+
 import './Nav.css';
 
 const Nav = () => {
+    
+    const auth = localStorage.getItem('user');
     return (
         <>
         <nav className="nav">
@@ -19,14 +22,12 @@ const Nav = () => {
                     <li>
                         <Link to="/update">Update Product</Link>
                     </li>
-                    <li>
-                        <Link to="/logout">Logout</Link>
-                    </li>
+                    
                     <li>
                         <Link to="/profile">Profile</Link>
                     </li>
                     <li>
-                        <Link to="/signup">SignUp</Link>
+                        {auth   ?   <Link to="/logout">Logout</Link>    :    <Link to="/signup">SignUp</Link>}
                     </li>
                 </ul>
             </div>
