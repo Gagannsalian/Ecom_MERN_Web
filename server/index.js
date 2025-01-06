@@ -1,26 +1,28 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const cors = require('cors');
 
+require('./Database/config');
+const User = require("./Database/User")
 const app = express();
 
-// app.get('/Sample', (req,res)=>{
-//     res.send("app is working");
-// })
+
+//midleware
+app.use(express.json())
+app.use(cors());
 
 
-const connectDB = async()=>{
-    mongoose.connect('mongodb://localhost:27017/e-commerce');
 
-    const productSchema = new mongoose.Schema({ })
-    const product = mongoose.model('product', productSchema);
 
-    const data = await product.find();
-    console.log(data);
-}
-connectDB();
+app.post("/register", async (req,res)=>{
+    let user = new User(req.body);
+    const result = await user.save();
+
+    res.send(req.body);
+})
+
+
 
 PORT = 8082;
 
-app.listen(PORT, ()=>{
-    console.log(`Server Running in PORT : ${PORT}`);
+app.listen(PORT, ()=>{  console.log(`Server Running in PORT : ${PORT}`);
 })
