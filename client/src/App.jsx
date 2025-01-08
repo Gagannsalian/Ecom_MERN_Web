@@ -1,7 +1,9 @@
 import Nav from "./Components/Navbar/Nav";
 import Footer from "./Components/Footer/Footer";
 import SignUp from "./Components/SignUp/SignUp";
+import Login from "./Components/Login/Login"
 import "./index.css";
+
 
 // Adjust path if needed
 
@@ -26,7 +28,7 @@ function App() {
           </Route>
 
           <Route path="/signup" element={<SignUp />} />
-
+          <Route path="/login" element={<Login/>} />
         </Routes>
       </BrowserRouter>
 
