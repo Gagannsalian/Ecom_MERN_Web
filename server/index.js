@@ -3,6 +3,7 @@ const cors = require("cors");
 
 require("./Database/config");
 const User = require("./Database/User");
+const Product = require('./Database/product');
 const app = express();
 
 // Middleware
@@ -42,6 +43,16 @@ app.post("/login", async (req, res) => {
     res.status(500).send({ error: "Error logging in" });
   }
 });
+
+
+app.post('/add-product',async(req,res)=>{
+      let product = new Product(req.body);
+      let result = await product.save();
+      res.send(result);
+})
+
+
+
 
 const PORT = 8082;
 

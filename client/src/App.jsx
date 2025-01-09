@@ -3,7 +3,7 @@ import Footer from "./Components/Footer/Footer";
 import SignUp from "./Components/SignUp/SignUp";
 import Login from "./Components/Login/Login"
 import "./index.css";
-
+import AddProduct from './Components/Product/AddProduct';
 
 // Adjust path if needed
 
@@ -20,7 +20,7 @@ function App() {
           <Route element={<PrivateComponent />}>
 
             <Route path="/" element={<h1>Product listing component</h1>} />
-            <Route path="/add" element={<h1>ADD Product component</h1>} />
+            <Route path="/add" element={<AddProduct />} />
             <Route path="/update" element={<h1> UPDATE Product component</h1>}/>
             <Route path="/logout" element={<h1>LOGOUT</h1>} />
             <Route path="/profile" element={<h1>PROFILE</h1>} />
