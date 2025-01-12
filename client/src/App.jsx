@@ -4,7 +4,7 @@ import SignUp from "./Components/SignUp/SignUp";
 import Login from "./Components/Login/Login"
 import "./index.css";
 import AddProduct from './Components/Product/AddProduct';
-
+import ProductList from './Components/ProductList/ProductList';
 // Adjust path if needed
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -19,7 +19,7 @@ function App() {
 
           <Route element={<PrivateComponent />}>
 
-            <Route path="/" element={<h1>Product listing component</h1>} />
+            <Route path="/" element={<ProductList/>} />
             <Route path="/add" element={<AddProduct />} />
             <Route path="/update" element={<h1> UPDATE Product component</h1>}/>
             <Route path="/logout" element={<h1>LOGOUT</h1>} />
