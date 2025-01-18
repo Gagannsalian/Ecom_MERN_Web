@@ -83,6 +83,38 @@ app.delete("/product/:id", async (req, res) => {
     res.status(500).send({ message: "Error deleting product", error });
   }
 });
+// ==================Update Product==========================
+app.put("/product/:id", async (req, res) => {
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id, // Product ID from the URL
+      req.body, // Data to update
+      { new: true } // Return the updated document
+    );
+
+    if (updatedProduct) {
+      res.status(200).send({ message: "Product updated successfully", data: updatedProduct });
+    } else {
+      res.status(404).send({ message: "Product not found" });
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Error updating product", error });
+  }
+});
+
+// ==================Get Product by ID==========================
+app.get("/product/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id); // Fetch product by ID
+    if (product) {
+      res.status(200).send(product); // Send product details
+    } else {
+      res.status(404).send({ message: "Product not found" }); // Handle not found
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Error fetching product", error }); // Handle errors
+  }
+});
 
 
 const PORT = 8082;

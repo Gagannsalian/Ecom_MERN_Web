@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ProductList.css';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProducts();
   }, []);
 
-  // Fetch all products
   const getProducts = async () => {
     try {
       let result = await fetch('http://localhost:8082/products');
@@ -19,17 +20,16 @@ const ProductList = () => {
     }
   };
 
-  // Delete a product by ID
   const deleteProduct = async (id) => {
     try {
       let response = await fetch(`http://localhost:8082/product/${id}`, {
         method: "DELETE",
       });
       const result = await response.json();
-  
+
       if (response.ok) {
         alert("Product deleted successfully");
-        getProducts(); // Refresh the product list
+        getProducts();
       } else {
         alert(result.message || "Error deleting the product");
       }
@@ -38,7 +38,10 @@ const ProductList = () => {
       alert("An error occurred while deleting the product.");
     }
   };
-  
+
+  const handleUpdate = (id) => {
+    navigate(`/update/${id}`);
+  };
 
   return (
     <div className="product-list-container">
@@ -60,6 +63,12 @@ const ProductList = () => {
                   onClick={() => deleteProduct(product._id)}
                 >
                   Delete
+                </button>
+                <button
+                  className="update-button"
+                  onClick={() => handleUpdate(product._id)}
+                >
+                  Update
                 </button>
               </div>
             </div>
