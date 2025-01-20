@@ -6,13 +6,14 @@ const AddProduct = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [company, setCompany] = useState("");
+  const [image, setImage] = useState(null); // New state for image
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !price || !category || !company) {
-      setError("All fields are required!");
+    if (!name || !price || !category || !company || !image) {
+      setError("All fields, including the image, are required!");
       return;
     }
 
@@ -20,18 +21,24 @@ const AddProduct = () => {
       // Get user ID from localStorage
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?._id; // Retrieve the user's ID
-      
+
       if (!userId) {
         setError("User not logged in.");
         return;
       }
 
+      // Create form data for the image upload
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("company", company);
+      formData.append("userId", userId);
+      formData.append("image", image); // Add image file
+
       const response = await fetch("http://localhost:8082/add-product", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, price, category, userId, company }),
+        body: formData,
       });
 
       const result = await response.json();
@@ -41,6 +48,7 @@ const AddProduct = () => {
         setPrice("");
         setCategory("");
         setCompany("");
+        setImage(null); // Clear image
         setError("");
       } else {
         alert(result.error || "Failed to add product.");
@@ -100,6 +108,16 @@ const AddProduct = () => {
           />
         </div>
 
+        <div className="form-group">
+          <label htmlFor="image">Product Image</label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])} // Handle file selection
+          />
+        </div>
+
         <button type="submit" className="add-product-button">
           Add Product
         </button>
@@ -109,4 +127,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-                                                                                                       

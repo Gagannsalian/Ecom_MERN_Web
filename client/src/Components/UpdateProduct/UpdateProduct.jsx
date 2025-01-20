@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './UpdateProduct.css';
 
@@ -10,8 +10,8 @@ const UpdateProduct = () => {
     price: '',
     category: '',
     company: '',
-    image: '',
   });
+  const [image, setImage] = useState(null); // Separate state for the image file
 
   useEffect(() => {
     fetchProductDetails();
@@ -31,13 +31,24 @@ const UpdateProduct = () => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]); // Store the selected file
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+
+    // Append all product details
+    Object.keys(product).forEach((key) => formData.append(key, product[key]));
+    if (image) {
+      formData.append('image', image); // Append the image file
+    }
+
     try {
       const response = await fetch(`http://localhost:8082/product/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(product),
+        body: formData, // Send as multipart/form-data
       });
       if (response.ok) {
         alert('Product updated successfully!');
@@ -103,14 +114,13 @@ const UpdateProduct = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="image">Image URL</label>
+          <label htmlFor="image">Image</label>
           <input
-            type="text"
+            type="file"
             id="image"
             name="image"
-            value={product.image}
-            onChange={handleInputChange}
-            placeholder="Enter image URL"
+            onChange={handleImageChange}
+            accept="image/*"
           />
         </div>
 
